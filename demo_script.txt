@@ -1,0 +1,23 @@
+demo script:
+* deploy service
+* make available publicly
+* scale up
+* log in and error out Pod (demo auto-recovery?)
+* deploy v2 of app (demo rolling update)
+* add HPA 
+* hit cpu intensive endpoing (demo Pod scaling)
+
+docker pull srkinz/hello-node
+
+kubectl --namespace demo run hello-node --image=srkinz/hello-node:v1 --port=8090
+kubectl --namespace demo get deployments
+kubectl --namespace demo get pods
+kubectl --namespace demo logs -f ...
+
+
+kubectl --namespace demo expose deployment hello-node --port=80 --target-port=8090 --type=LoadBalancer
+
+kubectl --namespace demo get services -o wide
+wait...
+(add DNS record here)
+aws --profile clearpoint route53 change-resource-record-sets --hosted-zone-id Z1GQUAABB0001 --change-batch file://add-k8sdemo.json

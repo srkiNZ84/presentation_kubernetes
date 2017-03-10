@@ -1,0 +1,223 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Kubernetes</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/white.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+          <img src="kubernetes_logo.png" border="none" height="200" width="200" />
+          <h1>Kubernetes</h1>
+          <p class="fragment">the ☁️ abstraction layer you didn't know you needed</p>
+        </section>
+        <section>
+          <h2>Overview</h2>
+          <ul>
+            <li>What is Kubernetes?</li>
+            <li>Why Kubernetes? (and brief discussion of alternatives)</li>
+            <li>Where/How to get started? (maybe demo if there's time?)</li>
+            <li>How we're using it on the Foodstuffs Online/TMS projects</li>
+            <li>Common pitfalls/mistakes</li>
+            <li>Tradeoffs</li>
+            <li>Question Time</li>
+          </ul>
+        </section>
+				<section>
+          <section>
+            <h2>What the 👉👌 is a Kubernetes?!</h2>
+            <p class="fragment">Basic problem: you've got a Docker (or rkt) container working, how to get it to Production?</p>
+            <p class="fragment">Kubernetes manages deploying, scaling, discovery, availability, rollback etc...</p>
+            <p class="fragment">Built by smart Google engineers (based on internal Google system, Borg and the lessons learned from that)</p>
+          </section>
+          <section>
+            <h2>What the 👉👌 is a Kubernetes?!</h2>
+            <p>Abstraction layer for the cloud (same API, regardless of where it's running)</p>
+            <p class="fragment">Supports different kinds of workloads (batch processing, service requests)</p>
+            <p class="fragment">Lots of community support</p>
+            <p class="fragment">Name came from old greek "cyber/kyber", meaning navigable</p>
+          </section>
+        </section>
+
+				<section>
+          <section>
+            <h2>Why should I give a 💩?</h2>
+            <ul>
+              <li class="fragment">Fast deploy time (container download/startup)</li>
+              <li class="fragment">Easy scaling with Horizontal Pod Autoscaler</li>
+              <li class="fragment">Handles service registration/service discovery (DNS and overlay network)</li>
+              <li class="fragment">Auto-healing behaviour (terminates and replaces unhealthy Pods)</li>
+              <li class="fragment">Useful abstractions (Deployment, Service, Pod)</li>
+              <li class="fragment">Google's answer to AWS's dominance in ☁️  #CloudWarStrategy</li>
+              <li class="fragment">Nicely abstracts "infrastructure" away from "app" problems</li>
+            </ul>
+          </section>
+          <section>
+            <h2>What's the business value?</h2>
+            <ul>
+              <li class="fragment">Make development go faster (faster deploy = faster feedback)</li>
+              <li class="fragment">...without taking "shortcuts" (still get HA, scalability, reproducability)</li>
+              <li class="fragment">One development API, same across any ☁️ </li>
+          </section>
+          <section>
+            <h2>Why not Docker Swarm?</h2>
+            <p class="fragment">We used Docker Swarm initially, but back when we tried it, was lacking features, namely:
+              <ul>
+                <li class="fragment">service discovery/registration</li>
+                <li class="fragment">whole bunch of other stuff, related to networking and redundancy IIRC</li>
+                <li class="fragment">basically we needed to write a lot of the "glue" to make everything auto-magic on AWS ourselves</li>
+                <li class="fragment">stuff we got for "free" with Kubernetes</li>
+            </p>
+          </section>
+          <section>
+            <h2>How about Mesos?</h2>
+            <p class="fragment">After a bit of research we came to conclusion that Mesos is way too complicated to build/run</p>
+            <p class="fragment">(No, we didn't actually try to get a Mesos cluster up and running)</p>
+          </section>
+          <section>
+            <h2>I've heard good things about ECS!</h2>
+            <p class="fragment">We didn't really look at it</p>
+            <p class="fragment">think it makes you use ECR and has 1-1 docker/EC2 instance ratio</p>
+            <p class="fragment">Inherently tied to AWS, we needed cross-☁️ for project IIRC</p>
+          </section>
+          <section>
+            <h2>What about just EC2 ELB/ASG/RDS?</h2>
+            <p class="fragment"><img src="aws_standard_diagram.jpg" />
+            </p>
+          </section>
+          <section>
+            <h2>What about just EC2 ELB/ASG/RDS?</h2>
+            <p>Made decision to use Docker early on</p>
+            <p class="fragment">Unavoidable differences between Prod environment and laptop (goes away with
+            Docker/containers)</p>
+          </section>
+        </section>
+        <section>
+          <h2>💇 💩 ! Where/How can I get started?</h2>
+          <p><a href="https://kubernetes.io/docs/getting-started-guides/minikube/">MiniKube</a> - run cluster on your laptop</p>
+          <p><a href="https://coreos.com/kubernetes/docs/latest/kubernetes-on-aws.html">kube-aws</a> CoreOS AWS auto cluster setup tool</p>
+          <p><a href="https://kubernetes.io/docs/getting-started-guides/aws/">kube-up</a> AWS setup tool</p>
+          <p><a href="https://github.com/kelseyhightower/kubernetes-the-hard-way">Kubernetes the Hard Way</a> tutorial for learning about the key cluster components</p>
+          <p><a href="https://www.udacity.com/course/scalable-microservices-with-kubernetes--ud615">Free Udacity course</a> to learn how to use it</p>
+          <p><a href="https://cloud.google.com/free-trial/">GCE $300 free credit</a> can spin up cluster</p>
+        </section>
+        <section>
+          <h2>Demo Time!! 😅 🤞 </h2>
+        </section>
+        <section>
+          <section>
+            <h2>How we're using it</h2>
+            <p class="fragment">Local development with Docker Compose<p>
+            <p class="fragment">Multiple environments, separated using Kubernetes "namespaces"</p>
+            <p class="fragment">Code "progresses" through environments</p>
+            <p class="fragment">3 different Kubernetes clusters (Dev, Test, Prod)</p>
+          </section>
+          <section>
+            <h2>How we're using it</h2>
+            <p>2 projects (Online & TMS)</p>
+            <p class="fragment">12 environments (sand,tiri,rangitoto,load,tms-dev,tms-int,int,dev,qa,tms-qa,preprod,prod)</p>
+            <p class="fragment">Each environment has it's own database/message queues/s3 buckets etc... to manage state</p>
+            <p class="fragment">Separation of "cluster infrastructure" and "application infrastructure"...</p>
+            <p class="fragment">one uses CloudFormation/Troposphere, other uses Ansible/Kubernetes</p>
+          </section>
+        </section>
+        <section>
+          <h2>Thanks for the sales pitch 🐴🎩, now tell us what really happened?!</h2>
+          <p class="fragment">well... since you asked...</p>
+        </section>
+        <section>
+          <section>
+            <h2>Common pitfalls/mistakes</h2>
+            <p class="fragment">Standardise up front on as much as possible (e.g. how to pass configuration to Pods)</p>
+            <p class="fragment">standardise on health checks/metrics</p>
+          </section>
+          <section>
+            <h2>Common pitfalls/mistakes</h2>
+            <p class="fragment">Resource constraints are still a thing (have to know/tell K8s how much CPU/RAM</p>
+            <p class="fragment">If you go with microservices architecture, instead of 5 services, you'll be managing 50</p>
+            <p class="fragment">API contracts between services (more of a microservices thing)</p>
+            <p class="fragment">Debugging is touch and go, useful logging messages are very important</p>
+          </section>
+          <section>
+            <h2>Common pitfalls/mistakes</h2>
+            <p class="fragment">Figure out how to version everything "together" (microservice anti-pattern? monorepo?)</p>
+            <p class="fragment">Work out how to deploy/test branches up front, don't require full env for a small change in one service</p>
+            <p class="fragment">it's OK to use "cluster create" scripts to get started. Not OK to use them for anything serious</p>
+            <p class="fragment">with self-healing features on, have to keep track of restarts as an indicator of issues</p>
+          </section>
+          <section>
+            <h2>Common pitfalls/mistakes</h2>
+            <p class="fragment">Don't store state in containers</p>
+            <p class="fragment">DO NOT STORE STATE IN CONTAINERS!</p>
+            <p class="fragment">have to think about how you're going to do DB/datastore migrations (especially if locks are involved)</p>
+            <p class="fragment">give everyone access and a short tutorial on how all the things fit together and how to debug e.g. <a href="https://kukulinski.com/10-most-common-reasons-kubernetes-deployments-fail-part-1/">link</a></p>
+          </section>
+          <section>
+            <h2>Common pitfalls/mistakes</h2>
+            <p class="fragment">Overlay network probably doesn't work with UDP/multicast/broadcast, stick to TCP unicast</p>
+            <p class="fragment">need a new monitoring/alerting approach to take into account self healing</p>
+            <p class="fragment">You will run out of disk. Avoid hosting your own docker registry if possible, if not possible, store images in S3</p>
+            <p class="fragment">Need a way to keep container images up to date (heartbleed, java patches etc...)</p>
+          </section>
+        </section>
+        <section>
+          <h2>Tradeoffs</h2>
+          <img src="process_data.jpeg" />
+        </section>
+        <section>
+          <h2>Tradeoffs</h2>
+          <ul>
+            <li>FFS, it's <i>yet another</i> abstraction layer</li>
+            <li>violates KISS principle, have to check three systems instead of one when 💩 hits the fan</li>
+            <li>Do you really need all these features?</li>
+            <li>Simpler than Mesos, but still pretty complicated (etcd, overlay network, API server, scheduler, docker, internal DNS etc...)</li>
+        </section>
+        <section>
+          <h2>Questions? Thoughts? Comments?</h2>
+        </section>
+        <section>
+          <p>Made with <a href="http://lab.hakim.se/reveal-js/#/">Reveal.js</a></p>
+          <p>TODO: Slides can be downloaded here (and PDF here)</p>
+          <br />
+          <h2>Thank you!</h2>
+        </section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				history: true,
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>
