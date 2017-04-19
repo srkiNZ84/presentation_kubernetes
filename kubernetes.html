@@ -35,7 +35,7 @@
             <li>What is Kubernetes?</li>
             <li>Why Kubernetes? (and brief discussion of alternatives)</li>
             <li>Where/How to get started? (maybe demo if there's time?)</li>
-            <li>How we're using it on the Foodstuffs Online/TMS projects</li>
+            <li>How we're using it on a couple of client projects</li>
             <li>Common pitfalls/mistakes</li>
             <li>Tradeoffs</li>
             <li>Question Time</li>
@@ -46,11 +46,11 @@
             <h2>What the 👉👌 is a Kubernetes?!</h2>
             <p class="fragment">Basic problem: you've got a Docker (or rkt) container working, how to get it to Production?</p>
             <p class="fragment">Kubernetes manages deploying, scaling, discovery, availability, rollback etc...</p>
-            <p class="fragment">Built by smart Google engineers (based on internal Google system, Borg and the lessons learned from that)</p>
+            <p class="fragment">Built by smart Google engineers (based on internal Google system, "Borg" and the lessons learned from that)</p>
           </section>
           <section>
             <h2>What the 👉👌 is a Kubernetes?!</h2>
-            <p>Abstraction layer for the cloud (same API, regardless of where it's running)</p>
+            <p>Abstraction layer for the cloud (same API, regardless of where it's running... kind of like JVM... 🤔)</p>
             <p class="fragment">Supports different kinds of workloads (batch processing, service requests)</p>
             <p class="fragment">Lots of community support</p>
             <p class="fragment">Name came from old greek "cyber/kyber", meaning navigable</p>
@@ -73,7 +73,7 @@
           <section>
             <h2>What's the business value?</h2>
             <ul>
-              <li class="fragment">Make development go faster (faster deploy = faster feedback)</li>
+              <li class="fragment">Make development go faster! (faster deploys = faster feedback = faster TTM = more 💰)</li>
               <li class="fragment">...without taking "shortcuts" (still get HA, scalability, reproducability)</li>
               <li class="fragment">One development API, same across any ☁️ </li>
           </section>
@@ -108,13 +108,23 @@
             <p>Made decision to use Docker early on</p>
             <p class="fragment">Unavoidable differences between Prod environment and laptop (goes away with
             Docker/containers)</p>
+            <p class="fragment">Too slow (EC2 instance provision time + startup time)</p>
+            <p class="fragment">Too flakey/inconsistent</p>
+          </section>
+          <section>
+            <h2>Did you try Nomad?</h2>
+            <p>No.</p>
+            <p class="fragment">Didn't hear about it until after decision to go with K8s</p>
+            <p class="fragment">Sounds like it's simpler operationally</p>
+            <p class="fragment">Get the impression the community is smaller</p>
           </section>
         </section>
         <section>
           <h2>💇 💩 ! Where/How can I get started?</h2>
           <p><a href="https://kubernetes.io/docs/getting-started-guides/minikube/">MiniKube</a> - run cluster on your laptop</p>
           <p><a href="https://coreos.com/kubernetes/docs/latest/kubernetes-on-aws.html">kube-aws</a> CoreOS AWS auto cluster setup tool</p>
-          <p><a href="https://kubernetes.io/docs/getting-started-guides/aws/">kube-up</a> AWS setup tool</p>
+          <p><a href="https://kubernetes.io/docs/getting-started-guides/aws/">kube-up</a> AWS setup tool (superceded by
+          <a href="https://github.com/kubernetes/kops">kops</a>)</p>
           <p><a href="https://github.com/kelseyhightower/kubernetes-the-hard-way">Kubernetes the Hard Way</a> tutorial for learning about the key cluster components</p>
           <p><a href="https://www.udacity.com/course/scalable-microservices-with-kubernetes--ud615">Free Udacity course</a> to learn how to use it</p>
           <p><a href="https://cloud.google.com/free-trial/">GCE $300 free credit</a> can spin up cluster</p>
@@ -151,7 +161,8 @@
           </section>
           <section>
             <h2>Common pitfalls/mistakes</h2>
-            <p class="fragment">Resource constraints are still a thing (have to know/tell K8s how much CPU/RAM</p>
+            <p class="fragment">Resource constraints are still a thing (have to know and tell K8s how much CPU/RAM for
+            scheduling)</p>
             <p class="fragment">If you go with microservices architecture, instead of 5 services, you'll be managing 50</p>
             <p class="fragment">API contracts between services (more of a microservices thing)</p>
             <p class="fragment">Debugging is touch and go, useful logging messages are very important</p>
@@ -172,7 +183,7 @@
           </section>
           <section>
             <h2>Common pitfalls/mistakes</h2>
-            <p class="fragment">Overlay network probably doesn't work with UDP/multicast/broadcast, stick to TCP unicast</p>
+            <p class="fragment">Overlay network probably doesn't work with UDP/multicast/broadcast, stick to unicast TCP</p>
             <p class="fragment">need a new monitoring/alerting approach to take into account self healing</p>
             <p class="fragment">You will run out of disk. Avoid hosting your own docker registry if possible, if not possible, store images in S3</p>
             <p class="fragment">Need a way to keep container images up to date (heartbleed, java patches etc...)</p>
@@ -185,17 +196,18 @@
         <section>
           <h2>Tradeoffs</h2>
           <ul>
-            <li>FFS, it's <i>yet another</i> abstraction layer</li>
-            <li>violates KISS principle, have to check three systems instead of one when 💩 hits the fan</li>
-            <li>Do you really need all these features?</li>
-            <li>Simpler than Mesos, but still pretty complicated (etcd, overlay network, API server, scheduler, docker, internal DNS etc...)</li>
+            <li class="fragment">FFS, it's <i>yet another</i> abstraction layer</li>
+            <li class="fragment">violates KISS principle, have to check three systems instead of one when 💩 hits the fan</li>
+            <li class="fragment">Do you really need all these features?</li>
+            <li class="fragment">Simpler than Mesos, but still pretty complicated (etcd, overlay network, API server, scheduler, docker, internal DNS etc...)</li>
         </section>
         <section>
           <h2>Questions? Thoughts? Comments?</h2>
         </section>
         <section>
           <p>Made with <a href="http://lab.hakim.se/reveal-js/#/">Reveal.js</a></p>
-          <p>Slides can be downloaded <a href="https://github.com/srkiNZ84/presentation_kubernetes/archive/1.0.zip">here</a>(and PDF here)</p>
+          <p>Slides can be downloaded from <a
+            href="https://github.com/srkiNZ84/presentation_kubernetes/archive/1.2.zip">https://github.com/srkiNZ84/presentation_kubernetes/archive/1.2.zip</a></p>
           <br />
           <h2>Thank you!</h2>
         </section>

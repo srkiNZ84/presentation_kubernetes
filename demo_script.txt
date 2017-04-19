@@ -1,10 +1,19 @@
+pre requisites:
+create demo cluster with:
+* export AWS_DEFAULT_PROFILE=srdan
+* export KUBERNETES_PROVIDER=aws; curl -sS https://get.k8s.io | bash
+* cluster/kube-up.sh
+* kubectl get pods (to test)
+
+NOTE: will create cluster in us-west-2 (oregon)
+
 demo script:
 * deploy service
 * make available publicly
 * scale up
 * log in and error out Pod (demo auto-recovery?)
 * deploy v2 of app (demo rolling update)
-* add HPA 
+* add HPA
 * hit cpu intensive endpoing (demo Pod scaling)
 
 docker pull srkinz/hello-node
